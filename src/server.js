@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import session from 'express-session';
-import store from 'session-file-store';
+// import store from 'session-file-store';
 import path from 'path';
 import jsxRender from './utils/jsxRender';
 import indexRouter from './routes/indexRouter';
@@ -12,19 +12,19 @@ require('dotenv').config();
 
 const PORT = process.env.SERVER_PORT || 3000;
 const app = express();
-const FileStore = store(session);
+// const FileStore = store(session);
 
-const sessionConfig = {
-  name: 'user_sid',
-  secret: process.env.SESSION_SECRET ?? 'test',
-  resave: true,
-  store: new FileStore(),
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 12,
-    httpOnly: true,
-  },
-};
+// const sessionConfig = {
+//   name: 'user_sid',
+//   secret: process.env.SESSION_SECRET ?? 'test',
+//   resave: true,
+//   store: new FileStore(),
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 12,
+//     httpOnly: true,
+//   },
+// };
 
 app.engine('jsx', jsxRender);
 app.set('view engine', 'jsx');
