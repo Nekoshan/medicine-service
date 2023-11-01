@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import MedItem from './UI/MedItem';
+import { Row, Col, FormControl, ButtonGroup, Button } from 'react-bootstrap';
 import axios from 'axios';
+import MedItem from './UI/MedItem';
+import '../../public/style.css';
 
 export default function MainPage({ medicines }) {
   const [input, setInput] = useState('');
   const [meds, setMeds] = useState(medicines);
+  const [arrow, setArrow] = useState(false);
 
+  const clickHandler = () => {
+    setArrow(!arrow);
+  };
 
   const searchData = async (search) => {
     const response = await axios.get(`/api/views/search?input=${search}`);
@@ -21,10 +26,25 @@ export default function MainPage({ medicines }) {
             type="text"
             className="form-control"
             placeholder="Поиск"
-            value={input}
+            value={(e) => e.target.value}
             onChange={(e) => setInput(e.target.value)}
             onKeyUp={(e) => e.key === 'Enter' && searchData(input)}
           />
+        </Col>
+        <Col>
+          <ButtonGroup aria-label="Basic example">
+            <Button
+              variant="secondary"
+              onClick={clickHandler}
+              value={arrow}
+              name="disc"
+              className={`button-hover ${arrow ? 'active' : ''}`}
+            >
+              Filter by discount
+            </Button>
+            <Button variant="secondary">Middle</Button>
+            <Button variant="secondary">Right</Button>
+          </ButtonGroup>
         </Col>
         <Row>
           {meds?.map((med) => (
