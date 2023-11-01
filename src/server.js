@@ -7,6 +7,7 @@ import jsxRender from './utils/jsxRender';
 import indexRouter from './routes/indexRouter';
 import apiRouter from './routes/apiRouter';
 import resLocals from './middlewares/resLocals';
+import api from './routes/api';
 
 require('dotenv').config();
 
@@ -39,5 +40,6 @@ app.use(resLocals);
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('./hand', api);
 
 app.listen(PORT, () => console.log(`App has started on port ${PORT}`));
