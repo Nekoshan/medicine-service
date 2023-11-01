@@ -6,10 +6,9 @@ export default function App({}) {
   return (
    <div className='container'>
    <NavBar/>
-      {/* <Routes>
-        <Route path="/" element={</>} />
-        <Route path="/students" element={</>} />
-      </Routes> */}
+      <Routes>
+        <Route path='/' element={<HomePage />}/>
+      </Routes>
       </div>
   );
 }
