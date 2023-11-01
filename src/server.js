@@ -40,6 +40,6 @@ app.use(resLocals);
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
-app.use('./hand', api);
+app.use('./edit', api);
 
 app.listen(PORT, () => console.log(`App has started on port ${PORT}`));

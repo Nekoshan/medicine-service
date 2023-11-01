@@ -6,7 +6,7 @@ const  router = express.Router();
 
 
 router.patch('/profile/:id', async (req, res) => {
-  console.log(req.body, req.params.id);
+  // console.log(req.body, req.params.id);
   const {name,email,hashpass} = req.body;
   await User.update({name,email,hashpass}, { where: { id: req.params.id } });
   res.sendStatus(200);
