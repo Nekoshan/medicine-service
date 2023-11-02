@@ -1,8 +1,9 @@
 import express from 'express';
 import morgan from 'morgan';
-import session from 'express-session';
+// import session from 'express-session';
 // import store from 'session-file-store';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import jsxRender from './utils/jsxRender';
 import indexRouter from './routes/indexRouter';
 import apiRouter from './routes/apiRouter';
@@ -30,7 +31,7 @@ const app = express();
 app.engine('jsx', jsxRender);
 app.set('view engine', 'jsx');
 app.set('views', path.join(__dirname, 'components'));
-
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
