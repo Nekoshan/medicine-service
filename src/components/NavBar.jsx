@@ -28,13 +28,18 @@ export default function NavBar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/signin">
+              <a className="nav-link" href="/signup">
                 Регистрация
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/signup">
-              Авторизация
+              <a className="nav-link" href="/signin">
+                Авторизация
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/logout">
+                Выход
               </a>
             </li>
           </ul>

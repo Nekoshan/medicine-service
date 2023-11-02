@@ -7,11 +7,22 @@ export default function MainPage({ medicines }) {
   const [input, setInput] = useState('');
   const [meds, setMeds] = useState(medicines);
   const [arrow, setArrow] = useState(false);
+  // const [arrow, setArrow] = useState(false);
+  // const [arrow, setArrow] = useState(false);
+
 
 
   const clickHandler = () => {
     setArrow(!arrow);
   };
+  // const clickHandler = () => {
+  //   setArrow(!arrow);
+  // };
+  // const clickHandler = () => {
+  //   setArrow(!arrow);
+  // };
+
+
 
   const searchData = async (search) => {
     const response = await axios.get(`/api/views/search?input=${search}`);
