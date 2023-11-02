@@ -10,7 +10,7 @@ export default function App({ medicines, user}) {
     <div className="container">
       <NavBar />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<MainPage medicines={medicines}/>} />
         <Route path="/profile" element={<ProfilePage user={user}/>} />
       </Routes>
     </div>
