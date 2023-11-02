@@ -12,7 +12,7 @@ router.patch('/profile/:id', async (req, res) => {
   res.sendStatus(200);
 })
 
-router.delete('./shop/:id', async (req, res) => {
+router.delete('/shop/:id', async (req, res) => {
     await Medicine.destroy({ where: { id: req.params.id } });
     res.sendStatus(200);
   });
