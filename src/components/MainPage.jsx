@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import MedItem from './UI/MedItem';
 import axios from 'axios';
+import MedItem from './UI/MedItem';
 
 export default function MainPage({ medicines }) {
   const [input, setInput] = useState('');
