@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Row, Col, FormControl, ButtonGroup, Button } from 'react-bootstrap';
 import axios from 'axios';
+import Datepicker from 'react-datepicker';
 import MedItem from './UI/MedItem';
+// import 'react-datepicker/dist/react-datepicker.css'
+
+
 
 export default function MainPage({ medicines }) {
   const [input, setInput] = useState('');
@@ -9,6 +13,7 @@ export default function MainPage({ medicines }) {
   const [arrow, setArrow] = useState(false);
   // const [arrow, setArrow] = useState(false);
   // const [arrow, setArrow] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
 
 
 
@@ -31,6 +36,14 @@ export default function MainPage({ medicines }) {
 
   return (
     <main role="main">
+      <Row>
+      <Datepicker
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+      inline
+    />
+    </Row>
+
       <Row>
         <Col xs={4} className="rounded-pill border border-secondary-subtle mt-3">
           <input

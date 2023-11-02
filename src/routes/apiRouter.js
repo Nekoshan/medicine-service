@@ -1,6 +1,6 @@
 import express from 'express';
-import { Medicine, User, Shop } from '../../db/models';
 import bcrypt from 'bcrypt';
+import { Medicine, User, Shop } from '../../db/models';
 import jwtConfig from '../config/jwtConfig';
 import generateTokens from '../utils/generateTokens';
 
@@ -23,12 +23,13 @@ router.get('/sort/:typeSort', async (req, res) => {});
 
 router.get('/sort/amount', async (req, res) => {});
 
-router.patch('/profile/:id', async (req, res) => {
+router.put('/profile/:id', async (req, res) => {
   // console.log(req.body, req.params.id);
-  const {  name,  email,  hashpass  } = req.body;
-  await User.update({  name,  email,  hashpass  }, { where: { id: req.params.id } });
-  res.sendStatus(200);
-});
+  const { name, email } = req.body;
+  await User.update({ name, email }, { where: { id: req.params.id } });
+  const user = await User.findOne({ where: { id: req.params.id } });
+  console.log(user);
+  res.status(200).json(user);
 });
 
 router.delete('/shop/:id', async (req, res) => {
