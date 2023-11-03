@@ -6,12 +6,12 @@ import generateTokens from '../utils/generateTokens';
 
 const router = express.Router();
 
-router.delete('/med/:id', async (req,res)=>{
-  // await Medicine.destroy({where: {
-  //   id: req.params.id
-  // }})
-  res.sendStatus(200)
-})
+// router.delete('/med/:id', async (req,res)=>{
+//   // await Medicine.destroy({where: {
+//   //   id: req.params.id
+//   // }})
+//   res.sendStatus(200)
+// })
 
 router.get('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
