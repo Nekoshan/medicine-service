@@ -5,19 +5,18 @@ import ProfilePage from './ProfilePage';
 import MainPage from './MainPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import Reactdatepicker from './Reactdatepicker';
+import CardMed from './CardMed';
 
-
-export default function App({ medicines, user}) {
+export default function App({ medicines, user }) {
   return (
     <div className="container">
       <NavBar />
       <Routes>
-        <Route path="/date" element={<Reactdatepicker />} />
-        <Route path="/" element={<MainPage medicines={medicines}/>} />
-        <Route path="/profile" element={<ProfilePage user={user}/>} />
+        <Route path="/" element={<MainPage medicines={medicines} />} />
+        <Route path="/profile" element={<ProfilePage user={user} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/add" element={<CardMed />} />
       </Routes>
     </div>
   );

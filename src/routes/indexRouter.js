@@ -27,4 +27,10 @@ router.get('/signin', checkNotAuth, (req, res) => res.render('Layout'));
 
 router.get('/signup', checkNotAuth, (req, res) => res.render('Layout'));
 
+router.get('/date', (req, res) => res.render('Layout'));
+
+router.get('/add', checkIsAdmin,(req,res)=>{
+  res.render('Layout')
+})
+
 export default router;

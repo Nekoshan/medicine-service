@@ -11,9 +11,7 @@ export default function ProfilePage({ user }) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const response = await axios.put(
-      `/api/profile/${user.id}`,
-      Object.fromEntries(new FormData(e.target)),
+    const response = await axios.put(`/api/profile/${user.id}`,Object.fromEntries(new FormData(e.target)),
     );
     console.log(response);
     setNewUser(response.data);

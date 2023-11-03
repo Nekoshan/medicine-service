@@ -6,6 +6,13 @@ import generateTokens from '../utils/generateTokens';
 
 const router = express.Router();
 
+router.delete('/med/:id', async (req,res)=>{
+  // await Medicine.destroy({where: {
+  //   id: req.params.id
+  // }})
+  res.sendStatus(200)
+})
+
 router.get('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
   // req/...?discount=${true}&ammount=${false}&sort=desk
@@ -29,7 +36,7 @@ router.put('/profile/:id', async (req, res) => {
   await User.update({ name, email }, { where: { id: req.params.id } });
   const user = await User.findOne({ where: { id: req.params.id } });
   console.log(user);
-  res.status(200).json(user);
+  res.status(200).send(user);
 });
 
 router.delete('/shop/:id', async (req, res) => {
@@ -109,5 +116,16 @@ router.post('/auth/signin', async (req, res) => {
 router.get('/auth/logout', (req, res) => {
   res.clearCookie(jwtConfig.access.name).clearCookie(jwtConfig.refresh.name).redirect('/');
 });
+
+router.post('/add', async (req,res)=>{
+  const data = req.body;
+  await Medicine.create(data);
+  res.redirect('/')
+})
+// router.get('/lol/:id',(req,res)=>{
+//   const {id}=req.params
+//   const pupa = {message:'pupalupa',id}
+//   res.json(pupa)
+// })
 
 export default router;

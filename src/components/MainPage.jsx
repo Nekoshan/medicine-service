@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { Row, Col, FormControl, ButtonGroup, Button } from 'react-bootstrap';
+import { Row, Col, ButtonGroup, Button } from 'react-bootstrap';
 import axios from 'axios';
-import Datepicker from 'react-datepicker';
 import MedItem from './UI/MedItem';
-// import 'react-datepicker/dist/react-datepicker.css'
-
 
 
 export default function MainPage({ medicines }) {
   const [input, setInput] = useState('');
   const [meds, setMeds] = useState(medicines);
   const [arrow, setArrow] = useState(false);
-  // const [arrow, setArrow] = useState(false);
-  // const [arrow, setArrow] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
 
+
+  // const [arrow, setArrow] = useState(false);
+  // const [arrow, setArrow] = useState(false);
 
 
   const clickHandler = () => {
@@ -37,21 +34,15 @@ export default function MainPage({ medicines }) {
   return (
     <main role="main">
       <Row>
-      <Datepicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      inline
-    />
-    </Row>
-
-      <Row>
         <Col xs={4} className="rounded-pill border border-secondary-subtle mt-3">
           <input
             type="text"
             className="form-control"
             placeholder="Поиск"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              console.log(e)
+              setInput(e.target.value)}}
             onKeyUp={(e) => e.key === 'Enter' && searchData(input)}
           />
         </Col>
@@ -65,8 +56,8 @@ export default function MainPage({ medicines }) {
       </Row>
       <Row>
         {meds?.map((med) => (
-          <Col xs={12} sm={6} md={4} lg={3}>
-            <MedItem key={med.id} med={med} />
+          <Col key={med.id} xs={12} sm={6} md={4} lg={3}>
+            <MedItem med={med}/>
           </Col>
         ))}
       </Row>
