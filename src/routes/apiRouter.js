@@ -4,10 +4,9 @@ import { Op } from 'sequelize';
 import { Medicine, User, Shop } from '../../db/models';
 import jwtConfig from '../config/jwtConfig';
 import generateTokens from '../utils/generateTokens';
+import verifyAccessToken from '../middlewares/verifyAccessToken';
 
 const router = express.Router();
-
-
 
 router.get('/search', async (req, res) => {
   const { input } = req.query;
@@ -25,11 +24,7 @@ router.get('/search', async (req, res) => {
 router.post('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
   // req/...?discount=${true}&ammount=${false}&sort=desk
-  // console.log('ДО ФИЛЬТРА ------', req.body);
-  const filter = req.body;
-  console.log(req.body);
-  // dis === false an === false price
-  // dis true {}
+
   if (filter?.discount === true) {
     const meds = await Medicine.findAll({
       where: { discount: true },
@@ -144,11 +139,25 @@ router.get('/auth/logout', (req, res) => {
   res.clearCookie(jwtConfig.access.name).clearCookie(jwtConfig.refresh.name).redirect('/');
 });
 
-router.post('/addCard', async (req,res)=>{
+router.post('/shop/', async (req, res) => {
+  const { user_id, med_id } = req.body;
+  await Shop.create({ user_id, med_id });
+  res.sendStatus(200);
+});
+
+router.get('/shop', async (req, res) => {
+  const medicines = await Shop.findAll({
+    where: { user_id: res.locals.user?.id },
+    include: [Medicine, User],
+  });
+  console.log(medicines);
+  res.json(medicines);
+});
+router.post('/addCard', async (req, res) => {
   const data = req.body;
   await Medicine.create(data);
-  res.redirect('/')
-})
+  res.redirect('/');
+});
 
 // router.delete('/:id', async (req,res)=>{
 //   await Medicine.destroy({where: {

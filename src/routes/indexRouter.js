@@ -16,18 +16,11 @@ router.get('/', async (req, res) => {
 
 router.get('/profile', verifyAccessToken, async (req, res) => res.render('Layout'));
 
-router.get('/shop', async (req, res) => {
-  const medicines = await Shop.findAll({
-    where: { user_id: res.locals.user.id },
-  });
-  const initState = { medicines };
-  res.render('Layout', initState);
-});
-
 router.get('/signin', checkNotAuth, (req, res) => res.render('Layout'));
 
 router.get('/signup', checkNotAuth, (req, res) => res.render('Layout'));
 
+router.get('/shop', verifyAccessToken, (req, res) => res.render('Layout'));
 router.get('/addCard', checkIsAdmin, (req, res) => res.render('Layout'));
 
 export default router;

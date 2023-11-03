@@ -9,8 +9,10 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import MedItem from './UI/MedItem';
 import useMeds from './hooks/useMeds';
 
-export default function MainPage({ medicines }) {
+export default function MainPage({ user, medicines }) {
   const { meds, setMeds } = useMeds(medicines);
+  // const [arrow, setArrow] = useState(false);
+  // const [arrow, setArrow] = useState(false);
 
   const [filter, setFilter] = useState({
     discount: false,
@@ -51,10 +53,7 @@ export default function MainPage({ medicines }) {
     // }
   };
 
-  const addHandler = () => {
-
-  }
-
+  const addHandler = () => {};
 
   return (
     <main role="main">
@@ -106,8 +105,8 @@ export default function MainPage({ medicines }) {
       <br />
       <Row>
         {meds?.map((med) => (
-          <Col key={med.id} xs={12} sm={6} md={4} lg={3}>
-            <MedItem med={med}/>
+          <Col xs={12} sm={6} md={4} lg={3}>
+            <MedItem key={med.id} med={med} user={user} />
           </Col>
         ))}
       </Row>

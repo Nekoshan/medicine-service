@@ -5,6 +5,7 @@ import ProfilePage from './ProfilePage';
 import MainPage from './MainPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Shop from './Shop';
 import CardMed from './CardMed';
 import NewNavBar from './UI/NewNavBar';
 
@@ -13,9 +14,8 @@ export default function App({ medicines, user, shop }) {
     <div className="container">
       <NewNavBar user={user} shop={shop} />
       <Routes>
-        <Route path="/" element={<MainPage medicines={medicines} />} />
-        <Route path="/profile" element={<ProfilePage user={user} />} />
-        <Route path="/" element={<MainPage medicines={medicines} />} />
+        <Route path="/" element={<MainPage user={user} medicines={medicines} />} />
+        <Route path="/shop" element={<Shop medicines={medicines} user={user} />} />
         <Route path="/profile" element={<ProfilePage user={user} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
