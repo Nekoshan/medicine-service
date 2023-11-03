@@ -19,7 +19,7 @@ export default function App({ medicines, user, shop }) {
         <Route path="/profile" element={<ProfilePage user={user} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/add" element={<CardMed />} />
+        <Route path="/addCard" element={<CardMed />} />
       </Routes>
     </div>
   );
