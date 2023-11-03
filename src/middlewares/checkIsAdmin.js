@@ -1,6 +1,7 @@
 export default function checkIsAdmin(req, res, next) {
-  if (res.locals.user.isAdmin) {
+  console.log(res.locals.user.admin);
+  if (res.locals.user.admin) {
     return next();
   }
-  res.redirect('/');
+  return res.redirect('/');
 }

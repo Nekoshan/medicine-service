@@ -51,6 +51,11 @@ export default function MainPage({ medicines }) {
     // }
   };
 
+  const addHandler = () => {
+
+  }
+
+
   return (
     <main role="main">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -101,11 +106,15 @@ export default function MainPage({ medicines }) {
       <br />
       <Row>
         {meds?.map((med) => (
-          <Col xs={12} sm={6} md={4} lg={3}>
-            <MedItem key={med.id} med={med} />
+          <Col key={med.id} xs={12} sm={6} md={4} lg={3}>
+            <MedItem med={med}/>
           </Col>
         ))}
       </Row>
+
+      {/* <button type="submit" onClick={(e) => addHandler(e)}>
+        Удалить
+      </button> */}
     </main>
   );
 }
