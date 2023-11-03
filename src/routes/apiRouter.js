@@ -1,5 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
 import { Medicine, User, Shop } from '../../db/models';
 import jwtConfig from '../config/jwtConfig';
 import generateTokens from '../utils/generateTokens';
@@ -14,21 +15,52 @@ const router = express.Router();
 // })
 
 router.get('/search', async (req, res) => {
-  // /search?amount=30&price=8&discount=true
-  // req/...?discount=${true}&ammount=${false}&sort=desk
-  const { amount, discount } = req.query;
-  if (discount) {
-    await Medicine.findAll({
-      where: { discount: true },
-    });
-    // if (amount) {
-    // }
-  }
+  const { input } = req.query;
+  const meds = await Medicine.findAll({
+    model: Medicine,
+    where: {
+      name: {
+        [Op.iLike]: `%${input}%`,
+      },
+    },
+  });
+  res.status(200).json(meds);
 });
 
-router.get('/sort/:typeSort', async (req, res) => {});
-
-router.get('/sort/amount', async (req, res) => {});
+router.post('/search', async (req, res) => {
+  // /search?amount=30&price=8&discount=true
+  // req/...?discount=${true}&ammount=${false}&sort=desk
+  // console.log('ДО ФИЛЬТРА ------', req.body);
+  const filter = req.body;
+  console.log(req.body);
+  // dis === false an === false price
+  // dis true {}
+  if (filter?.discount === true) {
+    const meds = await Medicine.findAll({
+      where: { discount: true },
+      order: [['price', 'DESC']],
+    });
+    return res.status(200).json(meds);
+  }
+  if (filter?.ammount === true) {
+    const meds = await Medicine.findAll({
+      order: [['amount', 'DESC']],
+    });
+    return res.status(200).json(meds);
+  }
+  if (filter?.price === true) {
+    const meds = await Medicine.findAll({
+      order: [['price', 'DESC']],
+    });
+    return res.status(200).json(meds);
+  }
+  if ((filter?.discount === false, filter?.ammount === false, filter?.price === false)) {
+    const meds = await Medicine.findAll({
+      order: [['price', 'ASC']],
+    });
+    return res.status(200).json(meds);
+  }
+});
 
 router.put('/profile/:id', async (req, res) => {
   // console.log(req.body, req.params.id);

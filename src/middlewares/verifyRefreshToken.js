@@ -24,6 +24,6 @@ export default function verifyRefreshToken(req, res, next) {
 
     next();
   } catch (error) {
-    return res.redirect('/login');
+    return res.redirect('/signin');
   }
 }
