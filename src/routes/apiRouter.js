@@ -1,6 +1,7 @@
 import express from 'express';
-import { Medicine, User, Shop } from '../../db/models';
 import bcrypt from 'bcrypt';
+import { Op } from 'sequelize';
+import { Medicine, User, Shop } from '../../db/models';
 import jwtConfig from '../config/jwtConfig';
 import generateTokens from '../utils/generateTokens';
 import verifyAccessToken from '../middlewares/verifyAccessToken';
@@ -8,27 +9,56 @@ import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
 
 router.get('/search', async (req, res) => {
+  const { input } = req.query;
+  const meds = await Medicine.findAll({
+    model: Medicine,
+    where: {
+      name: {
+        [Op.iLike]: `%${input}%`,
+      },
+    },
+  });
+  res.status(200).json(meds);
+});
+
+router.post('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
   // req/...?discount=${true}&ammount=${false}&sort=desk
-  const { discount } = req.query;
-  if (discount) {
-    await Medicine.findAll({
+
+  if (filter?.discount === true) {
+    const meds = await Medicine.findAll({
       where: { discount: true },
+      order: [['price', 'DESC']],
     });
-    // if (amount) {
-    // }
+    return res.status(200).json(meds);
+  }
+  if (filter?.ammount === true) {
+    const meds = await Medicine.findAll({
+      order: [['amount', 'DESC']],
+    });
+    return res.status(200).json(meds);
+  }
+  if (filter?.price === true) {
+    const meds = await Medicine.findAll({
+      order: [['price', 'DESC']],
+    });
+    return res.status(200).json(meds);
+  }
+  if ((filter?.discount === false, filter?.ammount === false, filter?.price === false)) {
+    const meds = await Medicine.findAll({
+      order: [['price', 'ASC']],
+    });
+    return res.status(200).json(meds);
   }
 });
 
-router.get('/sort/:typeSort', async (req, res) => {});
-
-router.get('/sort/amount', async (req, res) => {});
-
-router.patch('/profile/:id', async (req, res) => {
+router.put('/profile/:id', async (req, res) => {
   // console.log(req.body, req.params.id);
-  const { name, email, hashpass } = req.body;
-  await User.update({ name, email, hashpass }, { where: { id: req.params.id } });
-  res.sendStatus(200);
+  const { name, email } = req.body;
+  await User.update({ name, email }, { where: { id: req.params.id } });
+  const user = await User.findOne({ where: { id: req.params.id } });
+  console.log(user);
+  res.status(200).send(user);
 });
 
 router.delete('/shop/:id', async (req, res) => {
@@ -110,8 +140,8 @@ router.get('/auth/logout', (req, res) => {
 });
 
 router.post('/shop/', async (req, res) => {
-  const {user_id, med_id} = req.body;
-  await Shop.create({user_id, med_id});
+  const { user_id, med_id } = req.body;
+  await Shop.create({ user_id, med_id });
   res.sendStatus(200);
 });
 
@@ -120,8 +150,20 @@ router.get('/shop', async (req, res) => {
     where: { user_id: res.locals.user?.id },
     include: [Medicine, User],
   });
-  console.log(medicines)
+  console.log(medicines);
   res.json(medicines);
 });
+router.post('/addCard', async (req, res) => {
+  const data = req.body;
+  await Medicine.create(data);
+  res.redirect('/');
+});
+
+// router.delete('/:id', async (req,res)=>{
+//   await Medicine.destroy({where: {
+//     id: req.params.id
+//   }})
+//   res.sendStatus(200)
+// })
 
 export default router;

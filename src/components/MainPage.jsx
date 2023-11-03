@@ -1,55 +1,108 @@
 import React, { useState } from 'react';
-import { Row, Col, FormControl, ButtonGroup, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import axios from 'axios';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import MedItem from './UI/MedItem';
+import useMeds from './hooks/useMeds';
 
 export default function MainPage({ user, medicines }) {
-  const [input, setInput] = useState('');
-  const [meds, setMeds] = useState(medicines);
-  const [arrow, setArrow] = useState(false);
+  const { meds, setMeds } = useMeds(medicines);
   // const [arrow, setArrow] = useState(false);
   // const [arrow, setArrow] = useState(false);
 
+  const [filter, setFilter] = useState({
+    discount: false,
+    ammount: false,
+    price: false,
+  });
+  // const [sort, setSort] = useState(true);
 
+  const sortMedHandler = async (typeSort) => {
+    // мне пришел discount
+    // const fitlerObj = !filter[typeSort];
+    const copyFilter = { ...filter };
+    // for()
+    const temp = !copyFilter[typeSort];
 
-  const clickHandler = () => {
-    setArrow(!arrow);
-  };
-  // const clickHandler = () => {
-  //   setArrow(!arrow);
-  // };
-  // const clickHandler = () => {
-  //   setArrow(!arrow);
-  // };
+    for (const key in copyFilter) {
+      copyFilter[key] = false;
+    }
 
+    copyFilter[typeSort] = temp;
 
-
-  const searchData = async (search) => {
-    const response = await axios.get(`/api/views/search?input=${search}`);
+    setFilter(copyFilter);
+    const response = await axios.post(`/api/search`, copyFilter);
+    console.log(response);
     setMeds(response.data);
+    // switch (typeSort) {
+    //   case 'discount':
+    //     setFilter((prev) => ({ ...prev, discount: !prev.discount, ammount: false, price: false }));
+    //     break;
+    //   case 'ammount':
+    //     setFilter((prev) => ({ ...prev, discount: false, ammount: !prev.ammount, price: false }));
+    //     break;
+    //   case 'price':
+    //     setFilter((prev) => ({ ...prev, discount: false, ammount: false, price: !prev.price }));
+    //     break;
+    //   default:
+    //     break;
+    // }
   };
+
+  const addHandler = () => {};
 
   return (
     <main role="main">
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateCalendar />
+      </LocalizationProvider>
       <Row>
-        <Col xs={4} className="rounded-pill border border-secondary-subtle mt-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Поиск"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyUp={(e) => e.key === 'Enter' && searchData(input)}
-          />
+        <Col style={{ display: 'flex', justifyContent: 'center' }}>
+          <ButtonGroup aria-label="Basic example">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                sortMedHandler('discount');
+              }}
+              style={{
+                backgroundColor: filter.discount ? 'aqua' : '',
+                color: filter.discount ? 'white' : '',
+              }}
+            >
+              discount
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                sortMedHandler('ammount');
+              }}
+              style={{
+                backgroundColor: filter.ammount ? 'aqua' : '',
+                color: filter.ammount ? 'white' : '',
+              }}
+            >
+              anmmount
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                sortMedHandler('price');
+              }}
+              style={{
+                backgroundColor: filter.price ? 'aqua' : '',
+                color: filter.price ? 'white' : '',
+              }}
+            >
+              price
+            </Button>
+          </ButtonGroup>
         </Col>
-        <ButtonGroup aria-label="Basic example">
-          <Button variant="secondary" onClick={clickHandler} value={arrow} name="disc">
-            Filter by discount
-          </Button>
-          <Button variant="secondary">Filter by ammount</Button>
-          <Button variant="primary">Sort by price</Button>
-        </ButtonGroup>
       </Row>
+      <br />
       <Row>
         {meds?.map((med) => (
           <Col xs={12} sm={6} md={4} lg={3}>
@@ -57,6 +110,10 @@ export default function MainPage({ user, medicines }) {
           </Col>
         ))}
       </Row>
+
+      {/* <button type="submit" onClick={(e) => addHandler(e)}>
+        Удалить
+      </button> */}
     </main>
   );
 }
