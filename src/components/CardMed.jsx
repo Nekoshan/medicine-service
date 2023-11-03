@@ -3,11 +3,11 @@ import axios from 'axios';
 import { Form, InputGroup } from 'react-bootstrap';
 
 export default function CardMed() {
-  const [input, setInput] = useState({ name: '', price: '', amount: '', img: '' });
+  const [input, setInput] = useState({ name: '', price: '', amount: '', img: '', discount:'' });
 
   const addHandler = async (e) => {
     e.preventDefault();
-    const res = await axios.post(`/api/add`, input);
+    const res = await axios.post(`/api/addCard`, input);
     setInput({ name: '', price: '', amount: '', img: '' });
   };
 
@@ -62,6 +62,19 @@ export default function CardMed() {
           name="img"
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
+        />
+      </InputGroup>
+
+      <br />
+
+      <InputGroup size="sm" className="mb-3">
+        <InputGroup.Text id="inputGroup-sizing-sm">Скидка</InputGroup.Text>
+        <Form.Control
+          value={input.discount}
+          onChange={changeHandler}
+          name="discount"
+          aria-label="Small"
+          aria-describedby="inputGroup-sizing-sm"
         />
       </InputGroup>
 

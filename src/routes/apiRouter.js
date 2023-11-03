@@ -7,12 +7,7 @@ import generateTokens from '../utils/generateTokens';
 
 const router = express.Router();
 
-// router.delete('/med/:id', async (req,res)=>{
-//   // await Medicine.destroy({where: {
-//   //   id: req.params.id
-//   // }})
-//   res.sendStatus(200)
-// })
+
 
 router.get('/search', async (req, res) => {
   const { input } = req.query;
@@ -149,15 +144,17 @@ router.get('/auth/logout', (req, res) => {
   res.clearCookie(jwtConfig.access.name).clearCookie(jwtConfig.refresh.name).redirect('/');
 });
 
-router.post('/add', async (req,res)=>{
+router.post('/addCard', async (req,res)=>{
   const data = req.body;
   await Medicine.create(data);
   res.redirect('/')
 })
-// router.get('/lol/:id',(req,res)=>{
-//   const {id}=req.params
-//   const pupa = {message:'pupalupa',id}
-//   res.json(pupa)
+
+// router.delete('/:id', async (req,res)=>{
+//   await Medicine.destroy({where: {
+//     id: req.params.id
+//   }})
+//   res.sendStatus(200)
 // })
 
 export default router;

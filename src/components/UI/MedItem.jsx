@@ -10,9 +10,6 @@ export default function MedItem({ med, Handler }) {
         <Card.Title>{med.name}</Card.Title>
         <Card.Text>{med.price}</Card.Text>
         <Card.Text>{med.amount}</Card.Text>
-
-     
-
       </Card.Body>
     </Card>
   );
