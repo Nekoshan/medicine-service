@@ -5,6 +5,7 @@ import ProfilePage from './ProfilePage';
 import MainPage from './MainPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import Shop from './Shop';
 
 
 export default function App({ medicines, user}) {
@@ -12,11 +13,11 @@ export default function App({ medicines, user}) {
     <div className="container">
       <NavBar />
       <Routes>
-        <Route path="/" element={<MainPage medicines={medicines}/>} />
+        <Route path="/" element={<MainPage user={user} medicines={medicines}/>} />
         <Route path="/profile" element={<ProfilePage user={user}/>} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
-
+        <Route path='/shop' element={<Shop medicines={medicines} user={user}/>} />
       </Routes>
     </div>
   );

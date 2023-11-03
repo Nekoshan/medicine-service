@@ -3,13 +3,14 @@ import { Medicine, User, Shop } from '../../db/models';
 import bcrypt from 'bcrypt';
 import jwtConfig from '../config/jwtConfig';
 import generateTokens from '../utils/generateTokens';
+import verifyAccessToken from '../middlewares/verifyAccessToken';
 
 const router = express.Router();
 
 router.get('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
   // req/...?discount=${true}&ammount=${false}&sort=desk
-  const { amount, discount } = req.query;
+  const { discount } = req.query;
   if (discount) {
     await Medicine.findAll({
       where: { discount: true },
@@ -106,6 +107,21 @@ router.post('/auth/signin', async (req, res) => {
 
 router.get('/auth/logout', (req, res) => {
   res.clearCookie(jwtConfig.access.name).clearCookie(jwtConfig.refresh.name).redirect('/');
+});
+
+router.post('/shop/', async (req, res) => {
+  const {user_id, med_id} = req.body;
+  await Shop.create({user_id, med_id});
+  res.sendStatus(200);
+});
+
+router.get('/shop', async (req, res) => {
+  const medicines = await Shop.findAll({
+    where: { user_id: res.locals.user?.id },
+    include: [Medicine, User],
+  });
+  console.log(medicines)
+  res.json(medicines);
 });
 
 export default router;

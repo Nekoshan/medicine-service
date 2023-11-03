@@ -3,7 +3,7 @@ import { Row, Col, FormControl, ButtonGroup, Button } from 'react-bootstrap';
 import axios from 'axios';
 import MedItem from './UI/MedItem';
 
-export default function MainPage({ medicines }) {
+export default function MainPage({ user, medicines }) {
   const [input, setInput] = useState('');
   const [meds, setMeds] = useState(medicines);
   const [arrow, setArrow] = useState(false);
@@ -53,7 +53,7 @@ export default function MainPage({ medicines }) {
       <Row>
         {meds?.map((med) => (
           <Col xs={12} sm={6} md={4} lg={3}>
-            <MedItem key={med.id} med={med} />
+            <MedItem key={med.id} med={med} user={user} />
           </Col>
         ))}
       </Row>

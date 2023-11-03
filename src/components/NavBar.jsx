@@ -38,8 +38,13 @@ export default function NavBar() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/logout">
+              <a className="nav-link" href="/api/auth/logout">
                 Выход
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/shop">
+                бмьавлщопщлва
               </a>
             </li>
           </ul>
