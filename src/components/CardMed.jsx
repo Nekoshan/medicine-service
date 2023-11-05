@@ -9,6 +9,9 @@ export default function CardMed() {
     e.preventDefault();
     const res = await axios.post(`/api/addCard`, input);
     setInput({ name: '', price: '', amount: '', img: '' });
+    if(res.status === 200) {
+      window.location = '/';
+    }
   };
 
   const changeHandler = async (e) => {

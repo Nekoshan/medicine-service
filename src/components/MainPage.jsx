@@ -20,6 +20,12 @@ export default function MainPage({ user, medicines }) {
     price: false,
   });
   // const [sort, setSort] = useState(true);
+  const deleteHandler = async (id) => {
+    const response = await axios.delete(`/api/${id}`);
+    if (response.status === 200) {
+      setMeds((prev) => prev.filter((el) => el.id !== id));
+    }
+  };
 
   const sortMedHandler = async (typeSort) => {
     // мне пришел discount
@@ -106,7 +112,7 @@ export default function MainPage({ user, medicines }) {
       <Row>
         {meds?.map((med) => (
           <Col xs={12} sm={6} md={4} lg={3}>
-            <MedItem key={med.id} med={med} user={user} />
+            <MedItem key={med.id} med={med} user={user} deleteHandler={deleteHandler} />
           </Col>
         ))}
       </Row>

@@ -3,10 +3,9 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import { useLocation } from 'react-router-dom';
 
-export default function MedItem({ med, user }) {
+export default function MedItem({ med, user, deleteHandler }) {
   console.log(med);
 
-  const location = useLocation();
   const addHandler = async (e) => {
     e.preventDefault();
     const body = { med_id: med.id, user_id: user.id };
@@ -26,9 +25,20 @@ export default function MedItem({ med, user }) {
       </Card.Body>
       {console.log('user ------', user)}
       {console.log('meds ------', med)}
-      <button onClick={addHandler} type="button" className="btn btn-warning col-5">
-        Добавить
-      </button>
+      {user && (
+        <button onClick={addHandler} type="button" className="btn btn-warning col-5">
+          Добавить
+        </button>
+      )}
+      {user?.admin && (
+        <button
+          onClick={() => deleteHandler(med?.id)}
+          type="button"
+          className="btn btn-warning col-4"
+        >
+          Удалить
+        </button>
+      )}
     </Card>
   );
 }

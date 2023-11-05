@@ -41,10 +41,12 @@ function NewNavBar({ user }) {
           >
             Социальная аптека
           </Typography>
-          {user?.admin && (
+          {user?.admin == true ? (
             <Link href="/addCard" style={{ color: 'white', padding: '7px' }}>
               Карточки
             </Link>
+          ) : (
+            <div />
           )}
           {!user && (
             <>
@@ -63,6 +65,9 @@ function NewNavBar({ user }) {
               </Link>
               <Link href="/profile" style={{ color: 'white', padding: '7px' }}>
                 Профиль
+              </Link>
+              <Link href="/api/auth/logout" style={{ color: 'white', padding: '7px' }}>
+                Выход
               </Link>
             </>
           )}

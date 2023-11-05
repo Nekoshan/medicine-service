@@ -24,7 +24,7 @@ router.get('/search', async (req, res) => {
 router.post('/search', async (req, res) => {
   // /search?amount=30&price=8&discount=true
   // req/...?discount=${true}&ammount=${false}&sort=desk
-
+  const filter = req.body;
   if (filter?.discount === true) {
     const meds = await Medicine.findAll({
       where: { discount: true },
@@ -159,11 +159,11 @@ router.post('/addCard', async (req, res) => {
   res.redirect('/');
 });
 
-// router.delete('/:id', async (req,res)=>{
-//   await Medicine.destroy({where: {
-//     id: req.params.id
-//   }})
-//   res.sendStatus(200)
-// })
+router.delete('/:id', async (req,res)=>{
+  await Medicine.destroy({where: {
+    id: req.params.id
+  }})
+  res.sendStatus(200)
+})
 
 export default router;
